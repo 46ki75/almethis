@@ -20,18 +20,32 @@ const { text } = Astro.props
   define:vars={{ id, defaultMessage, copiedMessage, failedMessage }}
 >
   const button = document.getElementById(id)
+  let timeoutId = null
 
   button.addEventListener('click', () => {
     const textToCopy = button.dataset.copyText
+
     navigator.clipboard
       .writeText(textToCopy || '')
       .then(() => {
         button.textContent = copiedMessage
-        setTimeout(() => (button.textContent = defaultMessage), 2000)
+
+        if (timeoutId != null) clearTimeout(timeoutId)
+
+        timeoutId = setTimeout(() => {
+          button.textContent = defaultMessage
+          timeoutId = null
+        }, 2000)
       })
       .catch(() => {
         button.textContent = failedMessage
-        setTimeout(() => (button.textContent = defaultMessage), 2000)
+
+        if (timeoutId != null) clearTimeout(timeoutId)
+
+        timeoutId = setTimeout(() => {
+          button.textContent = defaultMessage
+          timeoutId = null
+        }, 2000)
       })
   })
 </script>
@@ -41,13 +55,18 @@ const { text } = Astro.props
     padding: 0.5em 1em;
     font-size: 0.875rem;
     color: #fff;
-    background-color: #007acc;
+    background-color: rgba(black, 0.8);
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
+    transition: background-color 200ms;
 
-  .copy-button:hover {
-    background-color: #005a99;
+    &:hover {
+      background-color: rgba(black, 0.6);
+    }
+
+    &:active {
+      background-color: rgba(black, 0.4);
+    }
   }
 </style>
