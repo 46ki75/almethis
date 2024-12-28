@@ -17,7 +17,7 @@ const {
 
 <div class='container'>
   <div class='header'>
-    <span>{caption}</span>
+    <span class='caption'>{caption}</span>
     <CopyButton text={code} />
   </div>
 
@@ -50,6 +50,11 @@ const {
     align-items: center;
     padding: 16px;
     border-bottom: 1px solid #e5e7eb;
+
+    .caption {
+      font-family: 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono',
+        monospace !important;
+    }
   }
 
   .body {
