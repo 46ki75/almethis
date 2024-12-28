@@ -6,15 +6,15 @@ interface CodeBlockProps {
   language?: string
 }
 
-const { code, language } = Astro.props as CodeBlockProps
+const { code, language = 'plaintext' } = Astro.props as CodeBlockProps
 
 const highlighter = await createHighlighter({
-  langs: language ? [language] : [],
+  langs: [language],
   themes: ['vitesse-light', 'vitesse-dark']
 })
 
 const html = highlighter.codeToHtml(code, {
-  lang: language ?? 'plaintext',
+  lang: language,
   themes: {
     dark: 'vitesse-dark',
     light: 'vitesse-light'
@@ -27,10 +27,10 @@ const html = highlighter.codeToHtml(code, {
 ---
 
 <pre>
-  <div set:html={html} />
+  <div class="code" set:html={html} />
 </pre>
 
-<style lang='scss'>
+<style scoped lang='scss'>
   .code {
     font-size: 16px;
     line-height: 24px;

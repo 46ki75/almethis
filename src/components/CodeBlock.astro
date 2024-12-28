@@ -1,0 +1,39 @@
+---
+import { createHighlighter } from 'shiki'
+import ShikiHighlighter from './ShikiHighlighter.astro'
+
+interface CodeBlockProps {
+  code: string
+  language?: string
+  caption?: string
+}
+
+const {
+  code,
+  language = 'plaintext',
+  caption = language
+} = Astro.props as CodeBlockProps
+---
+
+<div class='container'>
+  <div class='header'>
+    <span>{caption}</span>
+  </div>
+  <ShikiHighlighter code={code} language={language} />
+</div>
+
+<style lang='scss'>
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+</style>

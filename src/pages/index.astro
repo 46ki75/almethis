@@ -1,11 +1,38 @@
 ---
-import ShikiHighlighter from '../components/ShikiHighlighter.astro'
+import CodeBlock from '../components/CodeBlock.astro'
 import Layout from '../layouts/Layout.astro'
+
+const code = `
+use reqwest::Error;
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Post {
+    #[serde(rename = "userId")]
+    user_id: u32,
+    id: u32,
+    title: String,
+    body: String,
+}
+
+#[tokio::main]
+async fn main() -> Result<(), Error> {
+    let url = "https://jsonplaceholder.typicode.com/posts";
+    let response = reqwest::get(url).await?;
+    let posts: Vec<Post> = response.json().await?;
+
+    for post in posts.iter().take(5) {
+        println!("ID: {}, Title: {}", post.id, post.title);
+    }
+
+    Ok(())
+}
+`
 ---
 
 <Layout>
   <main class='container'>
-    <ShikiHighlighter code='console.log(0)' language='typescript' />
+    <CodeBlock caption='src/main.rs' code={code} language='rust' />
   </main>
 </Layout>
 
