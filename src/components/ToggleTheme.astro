@@ -1,0 +1,109 @@
+---
+import { Icon } from 'astro-icon/components'
+import { nanoid } from 'nanoid'
+
+const id = nanoid()
+
+interface ToggleThemeProps {
+  size?: string | number
+}
+
+const { size = '2rem' }: ToggleThemeProps = Astro.props
+const LOCAL_STORAGE_KEY = 'theme'
+---
+
+<div id={id}>
+  <Icon
+    class:list={['icon', 'hidden']}
+    name='line-md:moon-to-sunny-outline-loop-transition'
+    width={size}
+    height={size}
+  />
+
+  <Icon
+    class:list={['icon', 'hidden']}
+    name='line-md:sunny-outline-to-moon-loop-transition'
+    width={size}
+    height={size}
+  />
+</div>
+
+<script
+  lang='ts'
+  type='module'
+  is:inline
+  define:vars={{ id, LOCAL_STORAGE_KEY }}
+>
+  console.log('ToggleTheme.astro')
+  let isDarkTheme = false
+
+  const button = document.getElementById(id)
+  const updateIcon = () => {
+    const icons = button.querySelectorAll('.icon')
+    icons.forEach((icon) => icon.classList.toggle('hidden'))
+
+    if (isDarkTheme) {
+      icons[0].classList.remove('hidden')
+    } else {
+      icons[1].classList.remove('hidden')
+    }
+  }
+
+  if (typeof document !== 'undefined') {
+    const html = document.documentElement
+
+    const currentTheme = html.getAttribute('data-theme')
+    if (currentTheme != null) {
+      isDarkTheme = currentTheme === 'dark'
+    } else {
+      const localStorageTheme = localStorage.getItem(LOCAL_STORAGE_KEY)
+      if (localStorageTheme != null) {
+        isDarkTheme = localStorageTheme === 'dark'
+        html.setAttribute('data-theme', localStorageTheme)
+      }
+    }
+
+    updateIcon()
+
+    if (button) {
+      button.addEventListener('click', () => {
+        console.log('updateIcon')
+        const html = document.documentElement
+        const newTheme = isDarkTheme ? 'light' : 'dark'
+
+        html.setAttribute('data-theme', newTheme)
+        localStorage.setItem(LOCAL_STORAGE_KEY, newTheme)
+
+        isDarkTheme = newTheme === 'dark'
+        updateIcon()
+      })
+    }
+  }
+</script>
+
+<style scoped lang='scss'>
+  @mixin icon($color) {
+    box-sizing: border-box;
+    padding: 0.25rem;
+    color: $color;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .icon {
+    @include icon(rgba(0, 0, 0, 0.8));
+    box-shadow: 0 0 0.125rem rgba(black, 0.3);
+    background-color: rgba(white, 0.2);
+    transition: all 0.3s ease;
+
+    [data-theme='dark'] & {
+      box-shadow: 0 0 0.125rem rgba(black, 0.6);
+      background-color: rgba(black, 0.2);
+      @include icon(rgba(255, 255, 255, 0.8));
+    }
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>

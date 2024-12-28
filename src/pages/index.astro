@@ -1,5 +1,6 @@
 ---
 import CodeBlock from '../components/CodeBlock.astro'
+import ToggleTheme from '../components/ToggleTheme.astro'
 import Layout from '../layouts/Layout.astro'
 
 const code = `
@@ -32,6 +33,7 @@ async fn main() -> Result<(), Error> {
 
 <Layout>
   <main class='container'>
+    <ToggleTheme />
     <div class='code'>
       <CodeBlock caption='src/main.rs' code={code} language='rust' />
     </div>
@@ -41,6 +43,7 @@ async fn main() -> Result<(), Error> {
 <style lang='scss'>
   .container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
