@@ -1,0 +1,53 @@
+---
+import { nanoid } from 'nanoid'
+
+const id = nanoid()
+const defaultMessage = 'Copy Code'
+const copiedMessage = 'Copied!'
+const failedMessage = 'Failed to copy'
+
+const { text } = Astro.props
+---
+
+<button id={id} class='copy-button' data-copy-text={text}>
+  {defaultMessage}
+</button>
+
+<script
+  lang='ts'
+  type='module'
+  is:inline
+  define:vars={{ id, defaultMessage, copiedMessage, failedMessage }}
+>
+  const button = document.getElementById(id)
+
+  button.addEventListener('click', () => {
+    const textToCopy = button.dataset.copyText
+    navigator.clipboard
+      .writeText(textToCopy || '')
+      .then(() => {
+        button.textContent = copiedMessage
+        setTimeout(() => (button.textContent = defaultMessage), 2000)
+      })
+      .catch(() => {
+        button.textContent = failedMessage
+        setTimeout(() => (button.textContent = defaultMessage), 2000)
+      })
+  })
+</script>
+
+<style scoped lang='scss'>
+  .copy-button {
+    padding: 0.5em 1em;
+    font-size: 0.875rem;
+    color: #fff;
+    background-color: #007acc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .copy-button:hover {
+    background-color: #005a99;
+  }
+</style>

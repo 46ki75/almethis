@@ -9,7 +9,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.1.1"
+    "astro": "^5.1.1",
+    "nanoid": "^5.0.9"
   },
   "devDependencies": {
     "sass": "^1.83.0",
