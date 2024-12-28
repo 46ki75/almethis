@@ -14,14 +14,14 @@ const LOCAL_STORAGE_KEY = 'theme'
 
 <div id={id}>
   <Icon
-    class:list={['icon', 'hidden']}
+    class:list={['icon', 'light', 'hidden']}
     name='line-md:moon-to-sunny-outline-loop-transition'
     width={size}
     height={size}
   />
 
   <Icon
-    class:list={['icon', 'hidden']}
+    class:list={['icon', 'dark', 'hidden']}
     name='line-md:sunny-outline-to-moon-loop-transition'
     width={size}
     height={size}
@@ -34,18 +34,22 @@ const LOCAL_STORAGE_KEY = 'theme'
   is:inline
   define:vars={{ id, LOCAL_STORAGE_KEY }}
 >
-  console.log('ToggleTheme.astro')
   let isDarkTheme = false
-
   const button = document.getElementById(id)
+
   const updateIcon = () => {
+    const lightIcon = button.querySelector('.light')
+    const darkIcon = button.querySelector('.dark')
+
     const icons = button.querySelectorAll('.icon')
     icons.forEach((icon) => icon.classList.toggle('hidden'))
 
     if (isDarkTheme) {
-      icons[0].classList.remove('hidden')
+      lightIcon.classList.remove('hidden')
+      darkIcon.classList.add('hidden')
     } else {
-      icons[1].classList.remove('hidden')
+      darkIcon.classList.remove('hidden')
+      lightIcon.classList.add('hidden')
     }
   }
 
@@ -67,7 +71,6 @@ const LOCAL_STORAGE_KEY = 'theme'
 
     if (button) {
       button.addEventListener('click', () => {
-        console.log('updateIcon')
         const html = document.documentElement
         const newTheme = isDarkTheme ? 'light' : 'dark'
 

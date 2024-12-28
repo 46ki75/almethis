@@ -15,7 +15,7 @@ const {
 } = Astro.props as CodeBlockProps
 ---
 
-<div class='container'>
+<div class='almethis-code-block-container'>
   <div class='header'>
     <span class='caption'>{caption}</span>
     <CopyButton text={code} />
@@ -26,8 +26,8 @@ const {
   </div>
 </div>
 
-<style scoped lang='scss'>
-  .container {
+<style scoped lang='scss' data-theme='light'>
+  .almethis-code-block-container {
     margin-block: var(--margin-block);
     padding: 0 0.5rem;
     opacity: var(--opacity);
@@ -38,9 +38,6 @@ const {
     transition:
       background-color 400ms,
       opacity 800ms;
-
-    background-color: rgba(white, 0.4);
-    box-shadow: 0 0 0.25rem rgba(black, 0.1);
   }
 
   .header {
@@ -59,5 +56,17 @@ const {
 
   .body {
     padding: 0 0.5rem;
+  }
+</style>
+
+<style scoped lang='scss' is:global>
+  .almethis-code-block-container {
+    background-color: rgba(white, 0.4);
+    box-shadow: 0 0 0.25rem rgba(black, 0.1);
+
+    [data-theme='dark'] & {
+      background-color: rgba(white, 0.05);
+      box-shadow: 0 0 0.25rem rgba(black, 0.3);
+    }
   }
 </style>
