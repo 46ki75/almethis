@@ -26,28 +26,19 @@ const html = highlighter.codeToHtml(code, {
 })
 ---
 
-<pre class='pre'>
-  <div class="code" set:html={html} />
-</pre>
+<div class='wrapper' set:html={html} style="font-family: 'Source Code Pro';" />
 
 <style scoped lang='scss'>
-  .pre {
+  .wrapper {
     margin: 0;
     padding: 0;
-  }
-
-  .code {
     font-size: 16px;
     line-height: 24px;
   }
-</style>
 
-<style lang='scss'>
   .shiki,
-  .shiki span {
-    font-family: 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono',
-      monospace !important;
-
+  .shiki span,
+  pre {
     [data-theme='dark'] & {
       color: var(--shiki-dark) !important;
       background-color: var(--shiki-dark-bg) !important;
