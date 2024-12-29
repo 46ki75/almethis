@@ -1,0 +1,19 @@
+---
+interface InlineTextProps {
+  text: string
+}
+
+const { text } = Astro.props as InlineTextProps
+---
+
+<span class='inline-text'>{text}</span>
+
+<style scoped lang='scss'>
+  .inline-text {
+    color: rgba(black, 0.7);
+
+    [data-theme='dark'] & {
+      color: rgba(white, 0.7);
+    }
+  }
+</style>
